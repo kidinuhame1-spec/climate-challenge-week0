@@ -1,2 +1,1 @@
-"""Test package marker."""
-"""Test package marker."""
+"""Tests package marker."""
