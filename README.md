@@ -43,3 +43,9 @@ Task 1 repository setup for the 10 Academy KAIM Week 0 challenge.
     ├── __init__.py
     └── README.md
 ```
+
+## Task 1 completion evidence
+
+- Branch used: `setup-task`
+- Required files included: `.gitignore`, `requirements.txt`, `.github/workflows/ci.yml`
+- Merge method: Pull Request into `main`
