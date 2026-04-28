@@ -85,3 +85,35 @@ The work completed in this repository includes:
 - Required files included: `.gitignore`, `requirements.txt`, `.github/workflows/ci.yml`
 - Merge method: Pull Request into `main`
 - Task 2 notebooks merged into `main` after implementation on a dedicated working branch
+
+## Development Setup (quick)
+
+Follow these steps to create a reproducible development environment and run tests locally.
+
+- Create a virtual environment:
+
+  - Windows PowerShell:
+
+    ```powershell
+    python -m venv venv
+    .\venv\Scripts\Activate.ps1
+    pip install -r requirements.txt
+    ```
+
+  - macOS / Linux:
+
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+    ```
+
+- Run tests locally:
+
+  ```bash
+  pytest -q
+  ```
+
+Notes:
+- CI is configured in `.github/workflows/ci.yml` to run `pytest` on push and pull requests to `main`.
+- Do not push changes until you are ready to open a Pull Request from the `setup-task` branch.
