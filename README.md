@@ -148,3 +148,42 @@ Deploy to Streamlit Community Cloud
 
 Development notes
 - Keep `data/` ignored to avoid committing large datasets. Use environment secrets or remote storage for production data access.
+ 
+Extended dashboard usage
+
+- Demo (code-only) mode: when no local CSVs are present the app auto-generates a small synthetic dataset so the UI and charts render without data files.
+- Remote CSV ingestion: the app accepts one or more Google Drive share links (paste into the sidebar text area, one per line). The loader converts Drive share links into direct-download URLs and will attempt to parse the CSVs.
+- Time parsing: `app/utils.py` normalizes incoming files and will attempt to build a `time` column from common patterns including `time/date/datetime`, `YEAR`+`Month`+`Day`, and `YEAR`+`DOY` (day-of-year).
+
+Quick troubleshooting
+
+- If the app reports "No time column found" for a file, verify the CSV contains either a parseable date column or `YEAR` + `MONTH`/`DAY` or `YEAR` + `DOY` columns. The `scripts/inspect_drive.py` helper can fetch a Drive link and print sample columns.
+- To inspect a Drive CSV locally run:
+
+```bash
+python scripts/inspect_drive.py
+```
+
+Recommended development workflow
+
+1. Create a feature branch from `dashboard-dev` for UI or data changes.
+2. Run the app locally and validate behavior with demo mode or a small local sample in `data/`.
+3. Commit changes and push the branch; open a Pull Request into `dashboard-dev` or `main` as appropriate.
+
+CI / Smoke tests
+
+- Consider adding a small CI job that runs a smoke import and data-normalization check, e.g.:
+
+```bash
+python -c "from app.utils import load_country_data; print(load_country_data('data').shape)"
+```
+
+Files of interest
+
+- `app/main.py`: Streamlit app entrypoint and UI controls.
+- `app/utils.py`: data loading, Google Drive fetcher, and normalization helpers.
+- `scripts/inspect_drive.py`: quick helper to fetch and print a remote CSV sample.
+
+If you'd like, I can also:
+- Add a small sample CSV to `data/` for a predictable demo deploy (you previously opted for code-only demo).
+- Create a PR from `dashboard-dev` → `main` and include a short deployment checklist.
