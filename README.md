@@ -117,3 +117,34 @@ Follow these steps to create a reproducible development environment and run test
 Notes:
 - CI is configured in `.github/workflows/ci.yml` to run `pytest` on push and pull requests to `main`.
 - Do not push changes until you are ready to open a Pull Request from the `setup-task` branch.
+
+## Streamlit Dashboard (dashboard-dev)
+
+This repository includes a minimal Streamlit dashboard implemented at `app/main.py` intended for cross-country climate comparisons.
+
+- Branch: `dashboard-dev` (development branch for the dashboard features).
+- Commit: `feat: basic Streamlit UI` — adds `app/main.py` and `app/utils.py` with the dashboard UI.
+
+Features
+- Country multi-select widget (sidebar).
+- Year range slider (sidebar).
+- Temperature trend line chart (monthly averages, Altair).
+- Precipitation distribution boxplot (Altair boxplot).
+
+Notes about data
+- The `data/` folder is intentionally git-ignored (contains cleaned CSVs). The app reads local CSVs from `data/` when run locally.
+- For deployment on Streamlit Community Cloud either commit a small sample CSV under `data/` (for demo) or modify the app to fetch remote data (recommended for real deployments).
+
+Run locally
+```bash
+pip install -r requirements.txt
+streamlit run app/main.py
+```
+
+Deploy to Streamlit Community Cloud
+1. Push your branch (e.g., `dashboard-dev`) to GitHub.
+2. Go to https://share.streamlit.io/new and select the repository and branch.
+3. Set **Main file path** to `app/main.py` and click **Deploy**.
+
+Development notes
+- Keep `data/` ignored to avoid committing large datasets. Use environment secrets or remote storage for production data access.
