@@ -142,6 +142,19 @@ def normalize_dataframe(df: pd.DataFrame, source_name: str | None = None) -> pd.
                 )
             except Exception:
                 pass
+        # Handle YEAR + DOY (day-of-year) pairs when month/day are not available
+        elif "year" in cols_lc and "doy" in cols_lc:
+            try:
+                ycol = cols_lc["year"]
+                dcol = cols_lc["doy"]
+                # Ensure DOY is zero-padded to 3 digits for %j parsing
+                out["time"] = pd.to_datetime(
+                    out[ycol].astype(str).str.zfill(4) + out[dcol].astype(int).astype(str).str.zfill(3),
+                    format="%Y%j",
+                    errors="coerce",
+                )
+            except Exception:
+                pass
 
     return out
 
