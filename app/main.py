@@ -81,12 +81,9 @@ def main():
                 for u, msg in errors:
                     st.sidebar.warning(f"Partial failure: {u}: {msg}")
     if df.empty:
-        st.warning("No local data found in `data/`. You can paste remote CSV URLs in the sidebar.")
-        if st.sidebar.button("Use code-only demo data"):
-            df = make_demo_data()
-            st.sidebar.success("Demo data generated — running in demo mode.")
-        else:
-            return
+        st.info("No local data found in `data/`. Running in code-only demo mode.")
+        df = make_demo_data()
+        st.sidebar.success("Demo data generated — running in demo mode.")
 
     # Defensive: if CSVs lack an explicit `country` column, try to infer it
     # from the `source_file` column (e.g. 'ethiopia_clean.csv' -> 'Ethiopia').
