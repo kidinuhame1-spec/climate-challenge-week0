@@ -53,6 +53,62 @@ The work completed in this repository includes:
 ### Reproduce the environment (macOS/Linux)
 1. `git clone <your-repo-url>`
 2. `cd climate-challenge-week0`
+# Climate Challenge Week 0
+
+Repository for the 10 Academy KAIM Week 0 climate challenge, covering project setup, data profiling, cleaning, and country-level exploratory data analysis on African climate datasets.
+
+## Project overview
+
+This repository contains my implementation for the Week 0 challenge using climate data for:
+
+- Ethiopia
+- Kenya
+- Sudan
+- Tanzania
+- Nigeria
+
+The work completed in this repository includes:
+
+- Task 1: Git and environment setup
+- Task 2: Data profiling, cleaning, and country-specific EDA notebooks
+
+## Implemented work
+
+### Task 1: Git & environment setup
+
+- Created the required repository structure for notebooks, scripts, source files, tests, and VS Code settings
+- Added `.gitignore`, `requirements.txt`, `README.md`, and GitHub Actions CI workflow
+- Configured CI to run on push to `main`
+- Documented environment reproduction steps in this README
+
+### Task 2: Data profiling, cleaning, and EDA
+
+- Created one notebook per country:
+  - `notebooks/ethiopia_eda.ipynb`
+  - `notebooks/kenya_eda.ipynb`
+  - `notebooks/sudan_eda.ipynb`
+  - `notebooks/tanzania_eda.ipynb`
+  - `notebooks/nigeria_eda.ipynb`
+- Implemented data loading, date parsing, missing-value handling, duplicate checks, outlier detection, cleaned CSV export, and required visualizations for each country
+- Kept `data/` and CSV outputs out of version control in accordance with the challenge instruction
+
+## Environment setup
+
+### Prerequisites
+- Python 3.10+
+- Git
+
+### Reproduce the environment (Windows PowerShell)
+1. `git clone <your-repo-url>`
+2. `cd climate-challenge-week0`
+3. `python -m venv venv`
+4. `.
+venv\Scripts\Activate.ps1`
+5. `pip install -r requirements.txt`
+
+### Reproduce the environment (macOS/Linux)
+1. `git clone <your-repo-url>`
+2. `cd climate-challenge-week0`
 3. `python3 -m venv venv`
 4. `source venv/bin/activate`
 5. `pip install -r requirements.txt`
@@ -71,7 +127,7 @@ The work completed in this repository includes:
 ├── src/
 ├── notebooks/
 │   ├── __init__.py
-│   └── README.md
++  └── README.md
 ├── tests/
 │   └── __init__.py
 └── scripts/
@@ -148,42 +204,3 @@ Deploy to Streamlit Community Cloud
 
 Development notes
 - Keep `data/` ignored to avoid committing large datasets. Use environment secrets or remote storage for production data access.
- 
-Extended dashboard usage
-
-- Demo (code-only) mode: when no local CSVs are present the app auto-generates a small synthetic dataset so the UI and charts render without data files.
-- Remote CSV ingestion: the app accepts one or more Google Drive share links (paste into the sidebar text area, one per line). The loader converts Drive share links into direct-download URLs and will attempt to parse the CSVs.
-- Time parsing: `app/utils.py` normalizes incoming files and will attempt to build a `time` column from common patterns including `time/date/datetime`, `YEAR`+`Month`+`Day`, and `YEAR`+`DOY` (day-of-year).
-
-Quick troubleshooting
-
-- If the app reports "No time column found" for a file, verify the CSV contains either a parseable date column or `YEAR` + `MONTH`/`DAY` or `YEAR` + `DOY` columns. The `scripts/inspect_drive.py` helper can fetch a Drive link and print sample columns.
-- To inspect a Drive CSV locally run:
-
-```bash
-python scripts/inspect_drive.py
-```
-
-Recommended development workflow
-
-1. Create a feature branch from `dashboard-dev` for UI or data changes.
-2. Run the app locally and validate behavior with demo mode or a small local sample in `data/`.
-3. Commit changes and push the branch; open a Pull Request into `dashboard-dev` or `main` as appropriate.
-
-CI / Smoke tests
-
-- Consider adding a small CI job that runs a smoke import and data-normalization check, e.g.:
-
-```bash
-python -c "from app.utils import load_country_data; print(load_country_data('data').shape)"
-```
-
-Files of interest
-
-- `app/main.py`: Streamlit app entrypoint and UI controls.
-- `app/utils.py`: data loading, Google Drive fetcher, and normalization helpers.
-- `scripts/inspect_drive.py`: quick helper to fetch and print a remote CSV sample.
-
-If you'd like, I can also:
-- Add a small sample CSV to `data/` for a predictable demo deploy (you previously opted for code-only demo).
-- Create a PR from `dashboard-dev` → `main` and include a short deployment checklist.
