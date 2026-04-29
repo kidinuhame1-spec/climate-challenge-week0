@@ -141,35 +141,35 @@ def main():
 
     filtered = filter_by_country_and_year(df, sel_countries, year_range)
 
-    st.subheader("Temperature trend")
-    if "T2M" in filtered.columns:
-        temp = (
-            filtered.dropna(subset=["T2M"]) 
-            .groupby([pd.Grouper(key="time", freq="ME"), "country"]) ["T2M"]
+    st.subheader(f"{var} trend")
+    if var in filtered.columns:
+        trend = (
+            filtered.dropna(subset=[var])
+            .groupby([pd.Grouper(key="time", freq="ME"), "country"])[var]
             .mean()
             .reset_index()
         )
-        chart = alt.Chart(temp).mark_line().encode(
+        chart = alt.Chart(trend).mark_line().encode(
             x=alt.X("time:T", title="Time"),
-            y=alt.Y("T2M:Q", title="T2M (°C)"),
+            y=alt.Y(f"{var}:Q", title=f"{var}"),
             color="country:N",
-            tooltip=["time:T", "country:N", "T2M:Q"],
+            tooltip=["time:T", "country:N", alt.Tooltip(f"{var}:Q", title=var)],
         ).interactive()
         st.altair_chart(chart, use_container_width=True)
     else:
-        st.info("T2M not available in dataset.")
+        st.info(f"{var} not available in dataset.")
 
-    st.subheader("Precipitation distribution")
-    if "PRECTOTCORR" in filtered.columns:
-        box = alt.Chart(filtered.dropna(subset=["PRECTOTCORR"])).mark_boxplot().encode(
+    st.subheader(f"{var} distribution")
+    if var in filtered.columns:
+        box = alt.Chart(filtered.dropna(subset=[var])).mark_boxplot().encode(
             x=alt.X("country:N", title="Country"),
-            y=alt.Y("PRECTOTCORR:Q", title="PRECTOTCORR (mm)"),
+            y=alt.Y(f"{var}:Q", title=var),
             color="country:N",
-            tooltip=["country:N", "PRECTOTCORR:Q"],
+            tooltip=["country:N", alt.Tooltip(f"{var}:Q", title=var)],
         )
         st.altair_chart(box, use_container_width=True)
     else:
-        st.info("PRECTOTCORR not available in dataset.")
+        st.info(f"{var} not available in dataset.")
 
     st.markdown("---")
     st.subheader("Data preview")
