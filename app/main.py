@@ -1,6 +1,14 @@
+import sys
+import pathlib
 import streamlit as st
 import pandas as pd
 import altair as alt
+
+# Ensure repo root is on sys.path so `import app` works when Streamlit runs the script
+repo_root = pathlib.Path(__file__).resolve().parents[1]
+if str(repo_root) not in sys.path:
+    sys.path.insert(0, str(repo_root))
+
 from app.utils import load_country_data, filter_by_country_and_year
 
 
