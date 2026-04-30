@@ -6,3 +6,7 @@ data/
 *.csv
 .ipynb_checkpoints/
 .env
+.env.local
+.vscode/
+.idea/
+.DS_Store
